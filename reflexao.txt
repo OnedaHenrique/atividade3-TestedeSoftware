@@ -1,0 +1,169 @@
+RELATORIO REFLEXIVO - TRABALHO 3, ETAPA 2
+Projeto: Validador de CNPJ (formato numerico antigo e novo formato alfanumerico)
+Equipe: Desenvolvedor / Tester (cenarios recebidos de outra equipe)
+
+
+1. O QUE A OUTRA EQUIPE PEDIU NOS CENARIOS FOI FACIL DE ENTENDER?
+
+Em parte. A INTENCAO dos cinco cenarios ficou clara desde a primeira leitura:
+validar CNPJ numerico antigo, validar CNPJ alfanumerico, rejeitar CNPJ curto,
+rejeitar injecao de codigo e rejeitar digito verificador errado. Nenhum cenario
+precisou ser descartado por ser incompreensivel.
+
+O que NAO ficou claro foi o CONTRATO TECNICO. Os cenarios foram escritos em
+linguagem de negocio e deixaram em aberto justamente o que o programador precisa
+decidir para escrever a primeira linha de codigo:
+
+- Assinatura do metodo. O Gherkin exige, no mesmo cenario, "retornar o resultado
+  verdadeiro/falso" E "informar a mensagem X". Isso nao cabe em um retorno
+  boolean. Assumimos um objeto de retorno (record ResultadoValidacao, com
+  valido() e mensagem()), em vez de um boolean com a mensagem guardada em estado
+  interno, para que o validador nao tenha efeito colateral entre chamadas.
+
+- Mascara. Os cenarios 1, 2 e 5 informam o CNPJ pontuado ("12.ABC.345/01DE-35") e
+  o cenario 3 informa sem pontuacao ("12ABC34501DE3"). Nenhum diz se a pontuacao
+  e obrigatoria, opcional ou proibida. Assumimos que os separadores . / - sao
+  aceitos e descartados antes de qualquer verificacao.
+
+- Mensagem do caso de sucesso. Os cenarios 1 e 2 exigem apenas "resultado
+  verdadeiro" e nao definem texto de retorno. Optamos por nao criar assercao
+  sobre a mensagem nesses casos, para nao inventar um requisito que o cliente nao
+  pediu.
+
+- Contagem de caracteres. O cenario 3 fala em "13 caracteres" sem dizer se conta
+  a mascara. Assumimos caracteres uteis (sem mascara), coerente com o fato de o
+  proprio cenario informar o valor sem pontuacao, e tamanho correto de 14
+  (12 de base + 2 digitos verificadores).
+
+- Payload do abuse case. O cenario 4 chegou com aspas tipograficas (' e "), que
+  sao artefato de formatacao de texto e nao funcionariam como injecao real.
+  Assumimos aspas simples retas: ' OR '1'='1
+
+Conclusao deste item: o cenario em linguagem natural comunica bem O QUE validar e
+comunica mal COMO o sistema deve ser chamado. Todas as decisoes acima foram
+documentadas em comentario no proprio codigo, conforme a regra de "Resolucao de
+Conflitos" da atividade, sem consultar a outra equipe.
+
+
+2. HOUVE DIVERGENCIA ENTRE O QUE ELES IMAGINARAM E O QUE VOCES CODIFICARAM?
+
+Sim, e a divergencia mais interessante nao foi de gosto, foi uma CONTRADICAO
+LOGICA entre dois cenarios, que so apareceu na hora de implementar.
+
+Quando um mesmo CNPJ viola mais de uma regra ao mesmo tempo, alguma regra tem que
+falar primeiro. Nenhum cenario define essa precedencia. Ao escrever os testes,
+nossa equipe registrou a hipotese "tamanho -> caracteres permitidos -> digitos
+verificadores", que e a ordem intuitiva. Na fase GREEN essa ordem se revelou
+impossivel:
+
+- Cenario 3: "12ABC34501DE3" tem 13 caracteres, todos validos, e exige a
+  mensagem "CNPJ incompleto".
+- Cenario 4: "' OR '1'='1" tem 11 caracteres uteis (portanto tambem e curto!) e
+  exige a mensagem "CNPJ contem caracteres invalidos", NAO "CNPJ incompleto".
+
+Se o tamanho fosse verificado primeiro, o cenario 4 receberia "CNPJ incompleto" e
+falharia. A unica ordem que satisfaz os dois simultaneamente e a inversa:
+caracteres permitidos -> tamanho -> digitos verificadores. Foi essa a ordem
+implementada.
+
+Este ponto merece destaque porque expoe o valor da "Restricao Critica" da
+atividade: era muito mais confortavel editar o teste para aceitar a mensagem
+errada do que reescrever a logica. Como o teste e o contrato, o codigo se adaptou
+a ele. O comentario de precedencia que havia ficado errado na classe de teste NAO
+foi corrigido (nao podiamos tocar no teste); a divergencia foi registrada no
+javadoc da classe do sistema, explicando por que a ordem implementada e a inversa
+da que o comentario do teste declarava.
+
+Uma segunda divergencia, menor: o cenario 5 pede que o sistema "calcule os
+digitos verificadores esperados e identifique a divergencia". Isso nao e
+observavel apenas pelo retorno de validar(), que devolve so "invalido". Foi
+preciso expor dois metodos publicos a mais no contrato -
+calcularDigitosVerificadores(base) e extrairDigitosVerificadores(cnpj) - para que
+o passo do Gherkin fosse testavel de forma independente. Ou seja: um requisito
+escrito em uma linha de linguagem natural obrigou a ampliar a API publica da
+classe.
+
+Por fim, o valor esperado "35" para os digitos verificadores nao foi informado em
+nenhum lugar; ele foi DEDUZIDO do fato de o cenario 2 declarar valido o CNPJ
+"12.ABC.345/01DE-35", que tem exatamente a mesma base de 12 caracteres do cenario
+5. A implementacao confirmou a deducao: o modulo 11 aplicado a base
+"12ABC34501DE" resulta em 35.
+
+
+3. COMO VOCES TRATARAM TECNICAMENTE O "CASO DE ABUSO" (SEGURANCA)?
+
+O cenario 4 pede tres coisas: rejeitar a entrada com mensagem propria, nao
+interromper a execucao do sistema e nao executar nenhuma instrucao presente na
+entrada. O tratamento foi:
+
+a) LISTA DE PERMISSAO (allow list), nao lista de bloqueio. O validador nao procura
+   por padroes maliciosos conhecidos (OR, --, DROP, ';'). Ele percorre a entrada
+   caractere por caractere e aceita EXCLUSIVAMENTE 0-9 e A-Z; qualquer outro
+   caractere reprova a entrada. Lista de bloqueio sempre esta desatualizada em
+   relacao a criatividade do atacante; lista de permissao nao. O payload
+   ' OR '1'='1 e barrado pelas aspas e pelos espacos, sem que o validador precise
+   saber o que e SQL.
+
+b) A ENTRADA NUNCA E INTERPRETADA NEM CONCATENADA. A string recebida so e lida:
+   comparada, medida e percorrida. Ela nao vira consulta, comando, expressao nem
+   nome de arquivo. "Nao executar instrucoes da entrada" nao foi resolvido com
+   sanitizacao ou escape - foi resolvido nao existindo nenhum interpretador no
+   caminho do dado.
+
+c) NENHUMA EXCECAO ESCAPA DO PONTO DE ENTRADA. O metodo validar() nao lanca
+   excecao em nenhum caminho: entrada nula, vazia, curta, longa ou com lixo
+   binario retorna normalmente um objeto de resultado. Entrada null e normalizada
+   para string vazia antes de qualquer verificacao, o que elimina a possibilidade
+   de NullPointerException. Foi essa a leitura de "o sistema nao deve interromper
+   sua execucao": a rejeicao e um retorno de negocio, nao um erro de programa. Por
+   isso o teste correspondente usa assertDoesNotThrow, e nao assertThrows.
+
+d) A MENSAGEM DE ERRO NAO REFLETE A ENTRADA. As quatro mensagens sao constantes
+   fixas da classe, nunca montadas com o valor recebido. Isso impede que o
+   conteudo do ataque volte para a tela de outro usuario (o que seria um vetor de
+   XSS refletido em uma interface web) e evita vazar detalhe interno para quem
+   esta sondando o sistema. O teste verifica exatamente isso, ao exigir que a
+   mensagem nao contenha nem o payload inteiro nem o fragmento "OR".
+
+e) O VALIDADOR NAO GUARDA ESTADO. Nenhum campo de instancia mutavel: cada chamada
+   e independente. Assim uma tentativa de ataque nao contamina a validacao
+   seguinte - o teste comprova isso revalidando um CNPJ bom imediatamente depois
+   do payload e exigindo resultado valido.
+
+f) UMA EXCECAO PROPOSITAL, EM OUTRA CAMADA. calcularDigitosVerificadores() lanca
+   IllegalArgumentException se a base nao tiver 12 caracteres alfanumericos. Isso
+   nao contradiz o item (c): esse metodo e calculo interno, chamado pelo proprio
+   validador depois que a entrada JA passou por todas as verificacoes. Erro ali
+   significa defeito de programacao, e nao dado ruim de usuario - e falhar alto
+   nesse caso e melhor do que devolver um digito silenciosamente errado. O ponto
+   de entrada exposto ao usuario continua sendo validar(), que nunca lanca.
+
+
+4. EVIDENCIA DE EXECUCAO
+
+Fase RED (Parte 2, classe de sistema ainda como esqueleto):
+    Tests run: 9, Failures: 9, Errors: 0, Skipped: 0
+    BUILD FAILURE
+    Todas as 9 reprovacoes sao Failures (assercao), nenhuma e Error (excecao ou
+    erro de compilacao) - ou seja, o Red esta correto: os testes compilam e
+    falham pelo motivo certo, a ausencia de implementacao.
+
+Fase GREEN (Parte 3, apos implementar a classe do sistema):
+    Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+    BUILD SUCCESS
+    A classe de teste nao sofreu nenhuma alteracao entre as duas execucoes,
+    conforme a Restricao Critica da atividade.
+
+Ambiente: JDK 21, JUnit 5.10.5, Maven Surefire 3.5.1.
+Comando: mvn test
+
+
+5. LICAO PRINCIPAL
+
+O maior custo do trabalho nao foi escrever o algoritmo do modulo 11 - foi
+descobrir que dois cenarios escritos por pessoas diferentes, ambos claros
+isoladamente, se contradiziam quando lidos juntos. A contradicao nao apareceu na
+leitura nem na escrita dos testes: apareceu no momento em que o codigo precisou
+satisfazer os dois ao mesmo tempo. E um argumento concreto a favor de TDD: o
+teste executavel encontrou uma falha de especificacao que a revisao humana do
+texto nao encontrou.
