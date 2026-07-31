@@ -1,0 +1,193 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< br.furb:validador-cnpj >-----------------------
+[INFO] Building Validador de CNPJ (alfanumerico) 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ validador-cnpj ---
+[INFO] skip non existing resourceDirectory /Users/pasoka/Documents/TesteDeSoftware/atividade3/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ validador-cnpj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ validador-cnpj ---
+[INFO] skip non existing resourceDirectory /Users/pasoka/Documents/TesteDeSoftware/atividade3/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ validador-cnpj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.1:test (default-test) @ validador-cnpj ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.furb.cnpj.ValidadorCnpjTest
+[INFO] Running br.furb.cnpj.ValidadorCnpjTest$Cenario1
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.024 s <<< FAILURE! -- in br.furb.cnpj.ValidadorCnpjTest$Cenario1
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario1.deveValidarCnpjNumericoAntigo -- Time elapsed: 0.015 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: CNPJ numérico antigo deve continuar válido ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario1.deveValidarCnpjNumericoAntigo(ValidadorCnpjTest.java:84)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[INFO] Running br.furb.cnpj.ValidadorCnpjTest$Cenario2
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! -- in br.furb.cnpj.ValidadorCnpjTest$Cenario2
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario2.deveReconhecerOsDoisUltimosCaracteresComoDigitosVerificadores -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <35> but was: <>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario2.deveReconhecerOsDoisUltimosCaracteresComoDigitosVerificadores(ValidadorCnpjTest.java:121)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario2.deveValidarCnpjAlfanumerico -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: CNPJ alfanumérico válido deve ser aceito ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario2.deveValidarCnpjAlfanumerico(ValidadorCnpjTest.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[INFO] Running br.furb.cnpj.ValidadorCnpjTest$Cenario3
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! -- in br.furb.cnpj.ValidadorCnpjTest$Cenario3
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario3.deveRejeitarCnpjComMenosDeQuatorzeCaracteres -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <CNPJ incompleto> but was: <>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario3.deveRejeitarCnpjComMenosDeQuatorzeCaracteres(ValidadorCnpjTest.java:149)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[INFO] Running br.furb.cnpj.ValidadorCnpjTest$Cenario4
+[ERROR] Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.007 s <<< FAILURE! -- in br.furb.cnpj.ValidadorCnpjTest$Cenario4
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario4.deveRejeitarEntradaMaliciosa -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <CNPJ contém caracteres inválidos> but was: <>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario4.deveRejeitarEntradaMaliciosa(ValidadorCnpjTest.java:173)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario4.naoDeveInterromperAExecucao -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario4.naoDeveInterromperAExecucao(ValidadorCnpjTest.java:193)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario4.naoDeveExecutarInstrucoesDaEntrada -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: A entrada deve ser rejeitada como texto inválido, não interpretada ==> expected: <CNPJ contém caracteres inválidos> but was: <>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario4.naoDeveExecutarInstrucoesDaEntrada(ValidadorCnpjTest.java:207)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[INFO] Running br.furb.cnpj.ValidadorCnpjTest$Cenario5
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! -- in br.furb.cnpj.ValidadorCnpjTest$Cenario5
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario5.deveCalcularOsDigitosEsperadosEIdentificarADivergencia -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <35> but was: <>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario5.deveCalcularOsDigitosEsperadosEIdentificarADivergencia(ValidadorCnpjTest.java:256)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[ERROR] br.furb.cnpj.ValidadorCnpjTest$Cenario5.deveRejeitarCnpjComDigitosVerificadoresIncorretos -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <CNPJ inválido> but was: <>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at br.furb.cnpj.ValidadorCnpjTest$Cenario5.deveRejeitarCnpjComDigitosVerificadoresIncorretos(ValidadorCnpjTest.java:236)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in br.furb.cnpj.ValidadorCnpjTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   ValidadorCnpjTest$Cenario1.deveValidarCnpjNumericoAntigo:84 CNPJ numérico antigo deve continuar válido ==> expected: <true> but was: <false>
+[ERROR]   ValidadorCnpjTest$Cenario2.deveReconhecerOsDoisUltimosCaracteresComoDigitosVerificadores:121 expected: <35> but was: <>
+[ERROR]   ValidadorCnpjTest$Cenario2.deveValidarCnpjAlfanumerico:103 CNPJ alfanumérico válido deve ser aceito ==> expected: <true> but was: <false>
+[ERROR]   ValidadorCnpjTest$Cenario3.deveRejeitarCnpjComMenosDeQuatorzeCaracteres:149 expected: <CNPJ incompleto> but was: <>
+[ERROR]   ValidadorCnpjTest$Cenario4.deveRejeitarEntradaMaliciosa:173 expected: <CNPJ contém caracteres inválidos> but was: <>
+[ERROR]   ValidadorCnpjTest$Cenario4.naoDeveExecutarInstrucoesDaEntrada:207 A entrada deve ser rejeitada como texto inválido, não interpretada ==> expected: <CNPJ contém caracteres inválidos> but was: <>
+[ERROR]   ValidadorCnpjTest$Cenario4.naoDeveInterromperAExecucao:193 expected: <true> but was: <false>
+[ERROR]   ValidadorCnpjTest$Cenario5.deveCalcularOsDigitosEsperadosEIdentificarADivergencia:256 expected: <35> but was: <>
+[ERROR]   ValidadorCnpjTest$Cenario5.deveRejeitarCnpjComDigitosVerificadoresIncorretos:236 expected: <CNPJ inválido> but was: <>
+[INFO] 
+[ERROR] Tests run: 9, Failures: 9, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.998 s
+[INFO] Finished at: 2026-07-30T21:03:52-03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.1:test (default-test) on project validador-cnpj: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/pasoka/Documents/TesteDeSoftware/atividade3/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
